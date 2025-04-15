@@ -9,7 +9,7 @@ const port = process.env.PORT || 3000;
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(__dirname)); // Serve static files from root folder
+app.use(express.static(__dirname)); // Serve static files like .css, .html, etc. from root
 
 // Routes
 app.get('/', (req, res) => {
@@ -17,6 +17,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/register', (req, res) => {
+  console.log("📥 /register route hit!");
   res.sendFile(path.join(__dirname, 'register.html'));
 });
 
@@ -35,6 +36,11 @@ app.post('/register', async (req, res) => {
     console.error(err);
     res.status(500).send('❌ Registration failed.');
   }
+});
+
+// Optional: 404 handler for debugging
+app.use((req, res) => {
+  res.status(404).send('❌ 404 - Page not found');
 });
 
 // Start server
