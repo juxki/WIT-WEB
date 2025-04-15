@@ -6,11 +6,15 @@ const { poolPromise, sql } = require('./db');
 require('dotenv').config();
 
 const app = express();
-const port = 3000;
 
+// Use Azure's port or fallback to 3000 for local
+const port = process.env.PORT || 3000;
+
+// Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Routes
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
@@ -36,6 +40,7 @@ app.post('/register', async (req, res) => {
   }
 });
 
+// Start the server
 app.listen(port, () => {
   console.log(`🚀 Server running on http://localhost:${port}`);
 });
